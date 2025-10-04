@@ -2,17 +2,15 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import InventoryScreen from './src/screens/InventoryScreen';
+import DailiesScreen from './src/screens/DailiesScreen';
+import HomeScreen from './src/screens/HomeScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
-import QuestsScreen from './src/screens/QuestsScreen';
-import ShopScreen from './src/screens/ShopScreen';
-import TasksScreen from './src/screens/TasksScreen';
+import ToDosScreen from './src/screens/ToDosScreen';
 
 type RootTabParamList = {
-  Tasks: undefined;
-  Quests: undefined;
-  Shop: undefined;
-  Inventory: undefined;
+  Home: undefined;
+  Dailies: undefined;
+  ToDos: undefined;
   Profile: undefined;
 };
 
@@ -22,6 +20,7 @@ const App: React.FC = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
+        initialRouteName="Home"
         screenOptions={{
           headerShown: false,
           tabBarLabelStyle: {
@@ -29,10 +28,16 @@ const App: React.FC = () => {
           },
         }}
       >
-        <Tab.Screen name="Tasks" component={TasksScreen} />
-        <Tab.Screen name="Quests" component={QuestsScreen} />
-        <Tab.Screen name="Shop" component={ShopScreen} />
-        <Tab.Screen name="Inventory" component={InventoryScreen} />
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Dailies" component={DailiesScreen} />
+        <Tab.Screen
+          name="ToDos"
+          component={ToDosScreen}
+          options={{
+            title: 'To-Dos',
+            tabBarLabel: 'To-Dos',
+          }}
+        />
         <Tab.Screen name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
     </NavigationContainer>
