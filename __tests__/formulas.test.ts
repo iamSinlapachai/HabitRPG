@@ -75,9 +75,35 @@ describe('taskValueToExperience', () => {
     expect(taskValueToExperience(-10, 25)).toBe(0);
   });
 
+  it('scales critical rewards with strength rather than intelligence', () => {
+    const base = taskValueToExperience(5, 200);
+    const critWithStrength = taskValueToExperience(5, 200, {
+      isCritical: true,
+      strength: 100,
+    });
+    const expectedMultiplier = getCriticalMultiplier(100);
+
+    expect(critWithStrength).toBeCloseTo(base * expectedMultiplier, 2);
+  });
+
+  it('does not increase the critical multiplier when only intelligence is high', () => {
+    const highIntBase = taskValueToExperience(5, 200);
+    const highIntCrit = taskValueToExperience(5, 200, { isCritical: true, strength: 0 });
+    const lowIntBase = taskValueToExperience(5, 0);
+    const lowIntCrit = taskValueToExperience(5, 0, { isCritical: true, strength: 0 });
+
+    const highIntMultiplier = highIntCrit / highIntBase;
+    const lowIntMultiplier = lowIntCrit / lowIntBase;
+
+    expect(highIntMultiplier).toBeCloseTo(lowIntMultiplier, 5);
+  });
+
   it('calculates experience rewards with attribute and critical modifiers', () => {
     expect(taskValueToExperience(10, 50)).toBeCloseTo(9, 2);
-    expect(taskValueToExperience(10, 50, { isCritical: true })).toBeCloseTo(15.75, 2);
+    expect(taskValueToExperience(10, 50, { isCritical: true, strength: 50 })).toBeCloseTo(
+      15.75,
+      2,
+    );
   });
 });
 
@@ -86,9 +112,16 @@ describe('taskValueToGold', () => {
     expect(taskValueToGold(0, 40)).toBe(0);
   });
 
+  it('applies the critical multiplier based on strength', () => {
+    const base = taskValueToGold(5, 20);
+    const crit = taskValueToGold(5, 20, { isCritical: true, strength: 80 });
+
+    expect(crit).toBeCloseTo(base * getCriticalMultiplier(80), 2);
+  });
+
   it('calculates gold rewards with perception bonuses and critical hits', () => {
     expect(taskValueToGold(10, 40)).toBeCloseTo(5.6, 2);
-    expect(taskValueToGold(10, 40, { isCritical: true })).toBeCloseTo(9.52, 2);
+    expect(taskValueToGold(10, 40, { isCritical: true, strength: 40 })).toBeCloseTo(9.52, 2);
   });
 });
 

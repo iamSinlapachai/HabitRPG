@@ -78,12 +78,13 @@ export function taskValueToBossDamage(
 interface RewardOptions {
   isCritical?: boolean;
   baseMultiplier?: number;
+  strength?: number;
 }
 
 function taskValueToReward(
   taskValue: number,
   attribute: number,
-  { isCritical = false, baseMultiplier = 1 }: RewardOptions = {},
+  { isCritical = false, baseMultiplier = 1, strength = 0 }: RewardOptions = {},
 ): number {
   const clamped = Math.max(0, clampTaskValue(taskValue));
   if (clamped === 0) {
@@ -95,7 +96,8 @@ function taskValueToReward(
   let reward = clamped * baseMultiplier * attributeMultiplier;
 
   if (isCritical) {
-    reward *= getCriticalMultiplier(safeAttribute);
+    const safeStrength = Math.max(0, toFinite(strength));
+    reward *= getCriticalMultiplier(safeStrength);
   }
 
   return Number(reward.toFixed(2));
