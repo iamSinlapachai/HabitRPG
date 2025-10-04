@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { colors } from '../theme/colors';
+
 type CurrencyPillProps = {
   label: string;
   value: number;
@@ -25,19 +27,19 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 999,
     borderWidth: 1,
-    borderColor: '#d2d6dc',
-    backgroundColor: '#f8fafc',
+    borderColor: colors.border,
+    backgroundColor: colors.card,
   },
   value: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#1f2933',
+    color: colors.text,
     marginRight: 6,
   },
   label: {
     fontSize: 12,
     fontWeight: '500',
-    color: '#6b7280',
+    color: colors.muted,
     textTransform: 'uppercase',
   },
 });

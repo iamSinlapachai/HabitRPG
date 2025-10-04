@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { colors } from '../theme/colors';
+
 type StatBarProps = {
   label: string;
   value: number;
@@ -45,17 +47,17 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#1f2933',
+    color: colors.text,
   },
   value: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#52606d',
+    color: colors.muted,
   },
   barBackground: {
     height: 12,
     borderRadius: 6,
-    backgroundColor: '#e4e7eb',
+    backgroundColor: colors.border,
     overflow: 'hidden',
   },
   barFill: {
