@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import { colors } from '../theme/colors';
+
 type HabitListItemProps = {
   title: string;
   reward: string;
@@ -40,8 +42,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 12,
-    backgroundColor: '#ffffff',
-    shadowColor: '#000000',
+    backgroundColor: colors.card,
+    shadowColor: colors.bg,
     shadowOpacity: 0.05,
     shadowRadius: 4,
     shadowOffset: { width: 0, height: 2 },
@@ -49,7 +51,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   completedContainer: {
-    backgroundColor: '#f3f4f6',
+    backgroundColor: colors.border,
   },
   infoContainer: {
     flexDirection: 'row',
@@ -66,28 +68,28 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#1f2933',
+    color: colors.text,
   },
   completedText: {
-    color: '#6b7280',
+    color: colors.muted,
     textDecorationLine: 'line-through',
   },
   reward: {
     marginTop: 4,
     fontSize: 13,
-    color: '#6b7280',
+    color: colors.muted,
   },
   completedReward: {
-    color: '#9ca3af',
+    color: colors.muted,
   },
   startButton: {
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
-    backgroundColor: '#4f46e5',
+    backgroundColor: colors.button,
   },
   startButtonText: {
-    color: '#ffffff',
+    color: colors.buttonText,
     fontWeight: '600',
     fontSize: 14,
   },

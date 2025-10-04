@@ -10,6 +10,7 @@ import {
 import CurrencyPill from '../components/CurrencyPill';
 import HabitListItem from '../components/HabitListItem';
 import StatBar from '../components/StatBar';
+import { colors } from '../theme/colors';
 
 const level = 12;
 const hp = 85;
@@ -39,9 +40,9 @@ const HomeScreen: React.FC = () => {
               </View>
             </View>
             <View style={styles.statsSection}>
-              <StatBar label="Health" value={hp} max={hpMax} color="#22C55E" />
+              <StatBar label="Health" value={hp} max={hpMax} color={colors.green} />
               <View style={styles.barSpacing} />
-              <StatBar label="Experience" value={xp} max={xpMax} color="#A78BFA" />
+              <StatBar label="Experience" value={xp} max={xpMax} color={colors.purple} />
               <View style={styles.currencyRow}>
                 <View style={styles.currencyItem}>
                   <CurrencyPill label="Gold" value={gold} />
@@ -84,7 +85,7 @@ const HomeScreen: React.FC = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#0F172A',
+    backgroundColor: colors.bg,
   },
   scrollContent: {
     paddingBottom: 24,
@@ -109,25 +110,25 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 10,
-    backgroundColor: '#1F2937',
+    backgroundColor: colors.border,
     marginRight: 12,
   },
   welcomeText: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#E5E7EB',
+    color: colors.text,
   },
   levelText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#A78BFA',
+    color: colors.purple,
   },
   playerCard: {
     flexDirection: 'row',
-    backgroundColor: '#111827',
+    backgroundColor: colors.card,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#1F2937',
+    borderColor: colors.border,
     padding: 20,
     marginBottom: 28,
   },
@@ -140,15 +141,15 @@ const styles = StyleSheet.create({
     height: 64,
     borderRadius: 32,
     borderWidth: 2,
-    borderColor: '#A78BFA',
+    borderColor: colors.purple,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#1F2937',
+    backgroundColor: colors.border,
   },
   avatarInitials: {
     fontSize: 22,
     fontWeight: '700',
-    color: '#E5E7EB',
+    color: colors.text,
   },
   statsSection: {
     flex: 1,
@@ -168,16 +169,16 @@ const styles = StyleSheet.create({
     marginRight: 0,
   },
   sectionCard: {
-    backgroundColor: '#111827',
+    backgroundColor: colors.card,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#1F2937',
+    borderColor: colors.border,
     padding: 20,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#E5E7EB',
+    color: colors.text,
     marginBottom: 16,
   },
 });
