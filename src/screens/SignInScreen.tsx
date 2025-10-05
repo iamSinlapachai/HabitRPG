@@ -58,7 +58,6 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ onSignIn }) => {
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length === 0) {
-      Alert.alert('Signed in', `Welcome back, ${trimmedEmail}!`);
       onSignIn?.({ email: trimmedEmail, rememberMe });
     }
   };
@@ -75,7 +74,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ onSignIn }) => {
               <Text style={styles.logoText}>H</Text>
             </View>
 
-            <Text style={styles.title}>Sign in to Habitica</Text>
+            <Text style={styles.title}>Sign in to HabitRPG</Text>
             <Text style={styles.subtitle}>
               Continue your adventure by accessing your character and quests.
             </Text>
