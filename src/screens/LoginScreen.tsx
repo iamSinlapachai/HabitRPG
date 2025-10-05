@@ -69,7 +69,7 @@ const LoginScreen: React.FC = () => {
             <View style={styles.fieldGroup}>
               <TextInput
                 style={styles.input}
-                placeholder="Email"
+                placeholder="Gmail"
                 placeholderTextColor={colors.muted}
                 value={email}
                 onChangeText={setEmail}
@@ -101,15 +101,15 @@ const LoginScreen: React.FC = () => {
                 <View style={[styles.checkbox, remember && styles.checkboxChecked]}>
                   {remember ? <Text style={styles.checkboxCheck}>✓</Text> : null}
                 </View>
-                <Text style={styles.optionText}>Remember password</Text>
+                <Text style={styles.optionText}>Remember me</Text>
               </Pressable>
-              <Pressable>
-                <Text style={styles.forgotText}>Forget your password?</Text>
+              <Pressable onPress={() => console.log('Forget Password?')}>
+                <Text style={styles.forgotText}>Forget Password?</Text>
               </Pressable>
             </View>
 
             <Pressable style={styles.primaryButton} onPress={handleLogin}>
-              <Text style={styles.primaryButtonText}>Log in</Text>
+              <Text style={styles.primaryButtonText}>Sing in</Text>
             </Pressable>
 
             <Text style={styles.helperText}>Or</Text>
@@ -118,7 +118,7 @@ const LoginScreen: React.FC = () => {
           </AuthCard>
 
           <View style={styles.footer}>
-            <Text style={styles.footerText}>Don't have an account?</Text>
+            <Text style={styles.footerText}>don't have account?</Text>
             <Pressable>
               <Text style={styles.footerLink}>Sing up</Text>
             </Pressable>
