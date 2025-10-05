@@ -7,6 +7,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import ToDosScreen from './src/screens/ToDosScreen';
 import SignInScreen from './src/screens/SignInScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
 
 type RootTabParamList = {
   Home: undefined;
@@ -19,6 +20,7 @@ const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const App: React.FC = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [authScreen, setAuthScreen] = useState<'signIn' | 'signUp'>('signIn');
 
   return (
     <NavigationContainer>
@@ -44,8 +46,16 @@ const App: React.FC = () => {
           />
           <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>
+      ) : authScreen === 'signIn' ? (
+        <SignInScreen
+          onSignIn={() => setIsSignedIn(true)}
+          onNavigateToSignUp={() => setAuthScreen('signUp')}
+        />
       ) : (
-        <SignInScreen onSignIn={() => setIsSignedIn(true)} />
+        <SignUpScreen
+          onSignUp={() => setIsSignedIn(true)}
+          onNavigateToSignIn={() => setAuthScreen('signIn')}
+        />
       )}
     </NavigationContainer>
   );
