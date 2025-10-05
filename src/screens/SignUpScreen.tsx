@@ -27,27 +27,32 @@ const colors = {
 };
 
 type Errors = {
+  username?: string;
   email?: string;
   password?: string;
+  confirmPassword?: string;
 };
 
-type SignInScreenProps = {
-  onSignIn?: (payload: { email: string; rememberMe: boolean }) => void;
-  onNavigateToSignUp?: () => void;
+type SignUpScreenProps = {
+  onSignUp?: (payload: { username: string; email: string }) => void;
+  onNavigateToSignIn?: () => void;
 };
 
-const SignInScreen: React.FC<SignInScreenProps> = ({ onSignIn, onNavigateToSignUp }) => {
+const SignUpScreen: React.FC<SignUpScreenProps> = ({ onSignUp, onNavigateToSignIn }) => {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState<Errors>({});
-
-  const toggleRememberMe = () => setRememberMe((prev) => !prev);
 
   const handleSubmit = () => {
     const nextErrors: Errors = {};
-    const trimmedEmail = email.trim();
 
+    if (username.trim().length < 3) {
+      nextErrors.username = 'Display name must be at least 3 characters.';
+    }
+
+    const trimmedEmail = email.trim();
     if (!/^\S+@\S+\.\S+$/.test(trimmedEmail)) {
       nextErrors.email = 'Enter a valid email address.';
     }
@@ -56,10 +61,15 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ onSignIn, onNavigateToSignU
       nextErrors.password = 'Password must be at least 8 characters.';
     }
 
+    if (password !== confirmPassword) {
+      nextErrors.confirmPassword = 'Passwords do not match.';
+    }
+
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length === 0) {
-      onSignIn?.({ email: trimmedEmail, rememberMe });
+      onSignUp?.({ username: username.trim(), email: trimmedEmail });
+      Alert.alert('Account created', 'Welcome to Habitica!');
     }
   };
 
@@ -75,10 +85,20 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ onSignIn, onNavigateToSignU
               <Text style={styles.logoText}>H</Text>
             </View>
 
-            <Text style={styles.title}>Sign in to HabitRPG</Text>
+            <Text style={styles.title}>Create your Habitica account</Text>
             <Text style={styles.subtitle}>
-              Continue your adventure by accessing your character and quests.
+              Start building better habits and track your progress on every quest.
             </Text>
+
+            <View style={styles.fieldGroup}>
+              <LabeledField
+                label="Display name"
+                placeholder="Choose a display name"
+                value={username}
+                onChangeText={setUsername}
+              />
+              {errors.username ? <Text style={styles.errorText}>{errors.username}</Text> : null}
+            </View>
 
             <View style={styles.fieldGroup}>
               <LabeledField
@@ -94,46 +114,44 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ onSignIn, onNavigateToSignU
             <View style={styles.fieldGroup}>
               <PasswordField
                 label="Password"
-                placeholder="Enter your password"
+                placeholder="Create a password"
                 value={password}
                 onChangeText={setPassword}
               />
-              {errors.password ? (
-                <Text style={styles.errorText}>{errors.password}</Text>
+              {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
+            </View>
+
+            <View style={styles.fieldGroup}>
+              <PasswordField
+                label="Confirm password"
+                placeholder="Re-enter your password"
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+              />
+              {errors.confirmPassword ? (
+                <Text style={styles.errorText}>{errors.confirmPassword}</Text>
               ) : null}
             </View>
 
-            <View style={styles.optionsRow}>
-              <Pressable style={styles.rememberMe} onPress={toggleRememberMe}>
-                <View style={[styles.checkbox, rememberMe && styles.checkboxChecked]}>
-                  {rememberMe ? <Text style={styles.checkboxCheck}>✓</Text> : null}
-                </View>
-                <Text style={styles.rememberText}>Remember me</Text>
-              </Pressable>
-              <Pressable onPress={() => Alert.alert('Forgot password', 'Password reset flow coming soon!')}>
-                <Text style={styles.linkText}>Forgot password?</Text>
-              </Pressable>
-            </View>
-
             <Pressable style={styles.primaryButton} onPress={handleSubmit}>
-              <Text style={styles.primaryButtonText}>Sign in</Text>
+              <Text style={styles.primaryButtonText}>Sign up</Text>
             </Pressable>
 
             <OrDivider />
 
-            <SocialButton text="Continue with Google" onPress={() => Alert.alert('Google Sign-In')} />
-            <SocialButton text="Continue with Apple" onPress={() => Alert.alert('Apple Sign-In')} />
+            <SocialButton text="Continue with Google" onPress={() => Alert.alert('Google Sign-Up')} />
+            <SocialButton text="Continue with Apple" onPress={() => Alert.alert('Apple Sign-Up')} />
           </AuthCard>
 
           <View style={styles.footer}>
-            <Text style={styles.footerText}>New to Habitica?</Text>
-            <Pressable onPress={onNavigateToSignUp}>
-              <Text style={styles.linkText}>Create an account</Text>
+            <Text style={styles.footerText}>Already have an account?</Text>
+            <Pressable onPress={onNavigateToSignIn}>
+              <Text style={styles.linkText}>Sign in</Text>
             </Pressable>
           </View>
 
           <Text style={styles.termsText}>
-            By continuing you agree to our
+            By creating an account you agree to our
             <Text style={styles.inlineLink}> Terms of Service</Text> and
             <Text style={styles.inlineLink}> Privacy Policy</Text>.
           </Text>
@@ -198,43 +216,6 @@ const styles = StyleSheet.create({
     marginTop: -4,
     marginBottom: 12,
   },
-  optionsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 24,
-  },
-  rememberMe: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  rememberText: {
-    color: colors.text,
-    fontSize: 14,
-  },
-  checkbox: {
-    width: 22,
-    height: 22,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: colors.border,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 10,
-  },
-  checkboxChecked: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  checkboxCheck: {
-    color: colors.primaryText,
-    fontSize: 14,
-    fontWeight: '700',
-  },
-  linkText: {
-    color: colors.primary,
-    fontWeight: '600',
-  },
   primaryButton: {
     backgroundColor: colors.primary,
     paddingVertical: 14,
@@ -255,6 +236,10 @@ const styles = StyleSheet.create({
     color: colors.muted,
     fontSize: 14,
   },
+  linkText: {
+    color: colors.primary,
+    fontWeight: '600',
+  },
   termsText: {
     color: colors.muted,
     fontSize: 12,
@@ -268,4 +253,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignInScreen;
+export default SignUpScreen;
